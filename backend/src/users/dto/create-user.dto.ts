@@ -2,17 +2,17 @@ import { IsString, IsEmail, IsBoolean, IsDate } from 'class-validator';
 
 export class CreateUserDto {
     @IsString()
-    fullName: string;
+    fullName! :   string;
 
     @IsEmail()
-    email: string;
+    email!: string;
 
     @IsDate()
-    createdAt: Date;
+    createdAt!: Date;
 
     @IsString()
-    password: string;
+    password!: string;
 
     @IsBoolean()
-    isActive: boolean;
+    isActive!: boolean;
 }

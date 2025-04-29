@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api'; // Cambia esto según la configuración de tu backend
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
 export const getUsers = async () => {
     try {

@@ -1,13 +1,33 @@
-FROM node:18
+# Usar una imagen base ligera de Node.js
+FROM node:18-alpine
 
+# Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
+# Copiar y instalar dependencias en una sola capa
 COPY package*.json ./
+RUN npm install && npm cache clean --force
 
-RUN npm install
+# Copiar el archivo tsconfig.json al contenedor
+COPY tsconfig.json ./
 
+# Copiar el directorio src/ al contenedor
+COPY src ./src
+
+# Verificar si el directorio src/ y el archivo tsconfig.json están presentes antes de construir
+RUN ls -la src && ls -la tsconfig.json
+
+# Construir el proyecto y verificar si el directorio dist/ se genera correctamente
+RUN npx nest build || echo "Error en la construcción" && ls dist
+
+# Eliminar las dependencias de desarrollo para optimizar la imagen
+RUN npm prune --production
+
+# Copiar el resto del código fuente
 COPY . .
 
+# Exponer el puerto en el que se ejecutará la aplicación
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+# Comando para iniciar la aplicación
+CMD ["node", "dist/main.js"]

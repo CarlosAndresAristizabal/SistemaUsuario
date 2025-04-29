@@ -1,0 +1,18 @@
+# Ignorar dependencias instaladas
+node_modules
+pnpm-lock.yaml
+package-lock.json
+
+# Ignorar archivos de salida de compilación
+dist
+
+# Ignorar archivos de depuración
+npm-debug.log
+pnpm-debug.log
+
+# Ignorar archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar carpetas de control de versiones
+.git

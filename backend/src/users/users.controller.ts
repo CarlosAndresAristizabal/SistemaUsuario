@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { Controller, Get, Post, Put, Delete, Body, Param, Patch } from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { User } from "./entities/user.entity";
 
-@Controller('users')
+@Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -18,23 +18,19 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<User> {
-    return this.usersService.findOne(id);
+  @Get(":id")
+  findOne(@Param("id") id: string): Promise<User> {
+    return this.usersService.findOne(parseInt(id, 10));
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
-    return this.usersService.update(id, updateUserDto);
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
+    const idNumber = parseInt(id, 10);
+    return this.usersService.update(idNumber, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.usersService.remove(id);
-  }
-
-  @Put(':id/toggle-active')
-  toggleActive(@Param('id') id: string): Promise<User> {
+  @Put(":id/toggle-active")
+  toggleActive(@Param("id") id: string): Promise<User> {
     return this.usersService.toggleActive(id);
   }
 }

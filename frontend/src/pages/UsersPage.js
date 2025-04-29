@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUsers, toggleUserActive } from '../services/userService';
+import { getUsers, toggleUserActive, createUser, updateUser } from '../services/userService';
 import UserTable from '../components/UserTable';
 import UserForm from '../components/UserForm';
 
@@ -12,8 +12,13 @@ const UsersPage = () => {
     }, []);
 
     const fetchUsers = async () => {
-        const data = await getUsers();
+        try {
+        const data =   await getUsers();
         setUsers(data);
+    } catch (error) {
+        console.error('Error al obtener los usuarios:', error);
+        alert('Error al cargar los usuarios');
+    }
     };
 
     const handleToggleActive = async (userId) => {
