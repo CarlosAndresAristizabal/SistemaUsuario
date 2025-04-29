@@ -1,0 +1,18 @@
+{
+  "type": "mssql",
+  "host": "db",
+  "port": 1433,
+  "username": "db_user",
+  "password": "db_p@ssword123",
+  "database": "db_user_system",
+  "synchronize": false,
+  "logging": true,
+  "entities": ["dist/**/*.entity.js"],
+  "migrations": ["dist/migrations/*.js"],
+  "cli": {
+    "migrationsDir": "src/migrations"
+  },
+  "options": {
+    "encrypt": false
+  }
+}
