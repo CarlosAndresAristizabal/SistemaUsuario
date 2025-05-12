@@ -1,19 +1,9 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UseGuards,
-  Request,
-  HttpCode,
-  HttpStatus,
-  HttpException,
-  ConflictException
-} from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { CreateUserDto } from "../users/dto/create-user.dto";
+import { Controller, Post, Body, UseGuards, Get } from "@nestjs/common";
+
 import { AuthService } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";
+import { AuthGuard } from "./guards/auth.guard";
 
 @Controller("auth")
 export class AuthController {
@@ -27,5 +17,11 @@ export class AuthController {
   @Post("login")
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Get("users")
+  @UseGuards(AuthGuard)
+  getUsers() {
+    return this.authService.getUsers();
   }
 }

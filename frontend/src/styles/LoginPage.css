@@ -1,0 +1,77 @@
+/* Estilos generales para la página de inicio de sesión */
+.login-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    /* background: linear-gradient(to right, #ece9e6, #ffffff); */
+}
+
+/* Sección del logo */
+.login-logo-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: rgba(255, 255, 255, 0.8); */
+}
+
+.login-logo {
+    max-width: 80%;
+    height: auto;
+}
+
+/* Sección del formulario */
+.login-form-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: rgba(255, 255, 255, 0.6); */
+    backdrop-filter: blur(10px);
+}
+
+.login-card {
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    label{
+        color:black
+
+    }
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Botones de inicio de sesión social */
+.social-login-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+    }
+
+    .login-logo-section {
+        order: 2;
+        height: 30%;
+    }
+
+    .login-form-section {
+        order: 1;
+        height: 70%;
+    }
+}

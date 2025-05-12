@@ -20,6 +20,11 @@ import { User } from "./users/entities/user.entity";
         username: configService.get("DATABASE_USER"),
         password: configService.get("DATABASE_PASSWORD"),
         database: configService.get("DATABASE_NAME"),
+        // host: "localhost",
+        // port: 3306,
+        // username: "root",
+        // password: "",
+        // database: "usersdbtest",
         entities: [User],
         synchronize: true,
         logging: true

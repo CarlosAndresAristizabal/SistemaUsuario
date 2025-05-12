@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("users")
 export class User {
@@ -17,6 +17,13 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @CreateDateColumn({ name: "created_at" })
+  @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
   createdAt: Date;
+
+  @Column({ type: "enum", enum: ["admin", "user"], default: "user" })
+  role: "admin" | "user";
 }
+
+export default User;
+
+module.exports = { User };

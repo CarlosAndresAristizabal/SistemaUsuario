@@ -1,8 +1,10 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+       margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
+    overflow-x: hidden;
 }
 
 .container {
@@ -12,7 +14,10 @@ body {
 }
 
 h1, h2, h3 {
-    color: #343a40;
+    color: #28bee4;
+}
+label{
+  color:white
 }
 
 .table {
@@ -52,4 +57,74 @@ h1, h2, h3 {
 
 .alert {
     margin-top: 20px;
+}
+
+
+/* **************Loading*****************/
+
+
+.loader {
+  position :   absolute;
+  top: calc(70% - 32px);
+  left: calc(50% - 32px);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  perspective: 800px;
+}
+
+.inner {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.inner.one {
+  left: 0%;
+  top: 0%;
+  animation: rotate-one 1s linear infinite;
+  border-bottom: 3px solid #09090a;
+}
+
+.inner.two {
+  right: 0%;
+  top: 0%;
+  animation: rotate-two 1s linear infinite;
+  border-right: 3px solid #0e0e12;
+}
+
+.inner.three {
+  right: 0%;
+  bottom: 0%;
+  animation: rotate-three 1s linear infinite;
+  border-top: 3px solid #0e0e11;
+}
+
+@keyframes rotate-one {
+  0% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-two {
+  0% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-three {
+  0% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
 }

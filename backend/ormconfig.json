@@ -5,7 +5,6 @@
   "username": "user",
   "password": "root",
   "database": "user_system",
-  "synchronize": true,
   "logging": true,
   "entities": ["dist/**/*.entity.js"],
   "migrations": ["dist/migrations/*.js"],

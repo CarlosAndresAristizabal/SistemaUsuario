@@ -42,6 +42,67 @@ Este proyecto es un sistema de información que implementa un CRUD de usuarios u
 - **package.json**: Configuración de npm para el backend.
 - **tsconfig.json**: Configuración de TypeScript.
 
+## Configuración del Backend
+
+### Variables de Entorno
+Crea un archivo `.env` en la raíz del proyecto y define las siguientes variables:
+```
+JWT_SECRET=your-secret-key
+DATABASE_URL=postgres://user:password@localhost:5432/dbname
+```
+
+### Ejecución del Proyecto
+1. Instala las dependencias:
+   ```
+   npm install
+   ```
+2. Inicia el servidor:
+   ```
+   npm run start:dev
+   ```
+
+### Funcionalidades
+- Registro de usuarios con contraseñas encriptadas.
+- Inicio de sesión con generación de tokens JWT.
+- Gestión de usuarios (crear, editar, eliminar, activar/desactivar).
+
+## Migraciones y Semillas
+
+### Migraciones
+Las migraciones permiten mantener la estructura de la base de datos actualizada. Para ejecutar las migraciones, utiliza el siguiente comando:
+```
+npm run typeorm migration:run
+```
+Esto aplicará todas las migraciones pendientes a la base de datos configurada.
+
+### Semillas
+Las semillas permiten poblar la base de datos con datos iniciales o de prueba. Para ejecutar las semillas, utiliza el siguiente comando:
+```
+npm run seed:run
+```
+Esto insertará datos de prueba, como usuarios iniciales, en la base de datos.
+
+### Ejemplo de Éxito
+1. Ejecuta las migraciones:
+   ```
+   npm run typeorm migration:run
+   ```
+   Resultado esperado:
+   ```
+   Query: CREATE TABLE "users" (...)
+   Migration 1746716440192-CreateUsersTable.ts has been executed successfully.
+   ```
+
+2. Ejecuta las semillas:
+   ```
+   npm run seed:run
+   ```
+   Resultado esperado:
+   ```
+   Seeding: UserSeeder
+   Inserted 10 users successfully.
+   ```
+
 ## Instalación
 
 1. Clona el repositorio.

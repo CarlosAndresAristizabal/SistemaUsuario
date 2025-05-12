@@ -12,10 +12,13 @@
 		"paths": {
 			"@/*": ["*"]
 		},
-		"experimentalDecorators"       :   true,
-		"emitDecoratorMetadata"        :   true,
-		"strictPropertyInitialization" :   false
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"strictPropertyInitialization": false
 	},
-	"include": ["src/**/*"],
+	"include": [
+		"src/**/*",
+		"../frontend/src/components/UserForm.js"
+	],
 	"exclude": ["node_modules", "dist"]
 }

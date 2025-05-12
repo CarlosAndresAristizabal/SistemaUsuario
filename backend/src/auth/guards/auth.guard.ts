@@ -6,12 +6,17 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly reflector: Reflector
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const requiredRoles = this.reflector.get<string[]>('roles', context.getHandler());
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
 
@@ -24,6 +29,10 @@ export class AuthGuard implements CanActivate {
         secret: process.env.JWT_SECRET
       });
       request['user'] = payload;
+
+      if (requiredRoles && !requiredRoles.includes(payload.role)) {
+        throw new UnauthorizedException('No tienes permisos para acceder a esta ruta');
+      }
     } catch {
       throw new UnauthorizedException('Token inválido');
     }

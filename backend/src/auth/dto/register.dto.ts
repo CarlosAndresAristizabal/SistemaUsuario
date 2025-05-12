@@ -5,7 +5,7 @@ export class RegisterDto {
   @Transform(({ value }) => value.trim())
   @IsString()
   @MinLength(1)
-  fullName: string; // Cambié 'name' a 'fullName' para que coincida con la entidad User
+  fullName: string;
 
   @IsString()
   @IsEmail()
@@ -17,5 +17,5 @@ export class RegisterDto {
   password: string;
 
   @IsBoolean()
-  active: boolean;
+  isActive: boolean;
 }

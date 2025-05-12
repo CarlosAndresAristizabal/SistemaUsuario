@@ -1,30 +1,29 @@
-# Usar una imagen base ligera de Node.js
-FROM node:18-alpine
+# Usar una imagen base de Node.js compatible con crypto.randomUUID()
+FROM node:20-alpine AS builder
 
 # Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copiar y instalar dependencias en una sola capa
+# Copiar y instalar dependencias
 COPY package*.json ./
-RUN npm install && npm cache clean --force
-
-# Copiar el archivo tsconfig.json al contenedor
-COPY tsconfig.json ./
-
-# Copiar el directorio src/ al contenedor
-COPY src ./src
-
-# Verificar si el directorio src/ y el archivo tsconfig.json están presentes antes de construir
-RUN ls -la src && ls -la tsconfig.json
-
-# Construir el proyecto y verificar si el directorio dist/ se genera correctamente
-RUN npx nest build || echo "Error en la construcción" && ls dist
-
-# Eliminar las dependencias de desarrollo para optimizar la imagen
-RUN npm prune --production
+RUN npm install
 
 # Copiar el resto del código fuente
 COPY . .
+
+# Construir el proyecto
+RUN npm run build
+
+# Crear una imagen final para producción
+FROM node:20-alpine
+WORKDIR /app
+
+# Copiar solo los archivos necesarios desde la etapa de construcción
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package*.json ./
+
+# Instalar solo dependencias de producción
+RUN npm install --production && npm cache clean --force
 
 # Exponer el puerto en el que se ejecutará la aplicación
 EXPOSE 3000

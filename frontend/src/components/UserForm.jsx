@@ -1,54 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { createUser, updateUser } from '../services/userService';
+import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const UserForm = ({ user, isEdit }) => {
+import { createUser, updateUser } from '../services/userService';
+import '../styles/App.css';
+
+const UserForm = ({ user, isEdit, onUserCreated }) => {
     const [formData, setFormData] = useState({
-        fullName :   '',
-        email    :   '',
-        password :   '',
-        isActive :   true,
+        fullName: '',
+        email: '',
+        password: '',
+        isActive: true,
     });
-    const [errors, setErrors]             =   useState({});
-    const [isSubmitting, setIsSubmitting] =   useState(false);
-    const history                         =   useHistory();
+    const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
 
     useEffect(() => {
         if (isEdit && user) {
             setFormData({
-                fullName :   user.fullName || '',
-                email    :   user.email || '',
-                password :   '',
-                isActive :   user.isActive || true,
+                fullName: user.fullName || '',
+                email: user.email || '',
+                password: '',
+                isActive: user.isActive || true,
             });
         }
     }, [isEdit, user]);
 
     const validate = () => {
-        const newErrors                                      =   {};
-        if    (!formData.fullName.trim()) newErrors.fullName =   'El nombre completo es obligatorio.';
+        const newErrors = {};
+        if (!formData.fullName.trim()) newErrors.fullName = 'El nombre completo es obligatorio.';
         if (!formData.email.trim()) {
-            newErrors.email =   'El correo es obligatorio.';
+            newErrors.email = 'El correo es obligatorio.';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email =   'El correo no tiene un formato válido.';
+            newErrors.email = 'El correo no tiene un formato válido.';
         }
         if (!isEdit && (!formData.password || formData.password.length < 6)) {
-            newErrors.password =   'La contraseña debe tener al menos 6 caracteres.';
+            newErrors.password = 'La contraseña debe tener al menos 6 caracteres.';
         }
         return newErrors;
     };
 
     const handleChange = (e) => {
-        const { name, value, type, checked } =   e.target;
+        const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
-            [name]: type ===   'checkbox' ? checked : value,
+            [name]: type === 'checkbox' ? checked : value,
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const validationErrors =   validate();
+        const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
@@ -58,38 +61,41 @@ const UserForm = ({ user, isEdit }) => {
         try {
             if (isEdit) {
                 await updateUser(user.id, formData);
+                toast.success('Usuario actualizado satisfactoriamente.');
             } else {
                 await createUser(formData);
+                setFormData({ fullName: '', email: '', password: '', isActive: true });
+                toast.success('Usuario creado satisfactoriamente.');
+                if (onUserCreated) onUserCreated();
             }
-            history.push('/users');
-        } catch (error) {            
-            alert('Ocurrió un error al guardar el usuario.');
+        } catch (error) {
+            toast.error('Ocurrió un error al guardar el usuario.');
         } finally {
             setIsSubmitting(false);
         }
     };
 
     return (
-        <div className =   "container">
+        <div className="container">
             <h2>{isEdit ? 'Editar Usuario' : 'Crear Usuario'}</h2>
-            <form  onSubmit  =   {handleSubmit} noValidate>
-            <div   className =   "form-group">
-            <label htmlFor   =   "fullName">Nombre Completo</label>
+            <form onSubmit={handleSubmit} noValidate>
+                <div className="form-group">
+                    <label htmlFor="fullName">Nombre Completo</label>
                     <input
-                        type      =   "text"
-                        id        =   "fullName"
-                        name      =   "fullName"
-                        className =   {`form-control ${errors.fullName ? 'is-invalid' : ''}`}
-                        value     =   {formData.fullName}
-                        onChange  =   {handleChange}
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        className={`form-control ${errors.fullName ? 'is-invalid' : ''}`}
+                        value={formData.fullName}
+                        onChange={handleChange}
                         required
-                        aria-label =   "Nombre completo"
+                        aria-label="Nombre completo"
                         pattern="[a-zA-Z0-9]+"
                     />
                     {errors.fullName && <div className="invalid-feedback">{errors.fullName}</div>}
                 </div>
-                <div   className =   "form-group">
-                <label htmlFor   =   "email">Correo</label>
+                <div className="form-group">
+                    <label htmlFor="email">Correo</label>
                     <input
                         type="email"
                         id="email"
@@ -130,6 +136,11 @@ const UserForm = ({ user, isEdit }) => {
                 </div>
                 <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                     {isSubmitting ? 'Guardando...' : isEdit ? 'Actualizar Usuario' : 'Crear Usuario'}
+                    {isSubmitting && <div className="loader">
+                        <div className="inner one"></div>
+                        <div className="inner two"></div>
+                        <div className="inner three"></div>
+                    </div>}
                 </button>
             </form>
         </div>

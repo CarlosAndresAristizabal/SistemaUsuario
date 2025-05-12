@@ -31,6 +31,29 @@ Este proyecto es una aplicación web desarrollada con ReactJS que permite gestio
    npm install
    ```
 
+## Configuración del Frontend
+
+### Variables de Entorno
+Crea un archivo `.env` en la raíz del proyecto y define la URL del backend:
+```
+REACT_APP_API_URL=http://localhost:4002/api
+```
+
+### Ejecución del Proyecto
+1. Instala las dependencias:
+   ```
+   npm install
+   ```
+2. Inicia el servidor de desarrollo:
+   ```
+   npm start
+   ```
+
+### Funcionalidades
+- Inicio de sesión con validación de credenciales.
+- Gestión de usuarios (crear, editar, eliminar, activar/desactivar).
+- Visualización de contraseñas en la tabla de usuarios.
+
 ## Ejecución
 
 Para iniciar la aplicación en modo desarrollo, ejecuta:
@@ -46,7 +69,29 @@ La aplicación se comunica con un backend desarrollado en NestJS. Asegúrate de 
 
 ## Migraciones y Semillas
 
-El backend incluye migraciones y semillas para crear usuarios de prueba. Asegúrate de ejecutar las migraciones antes de iniciar la aplicación.
+Aunque las migraciones y semillas son manejadas principalmente por el backend, es importante asegurarse de que el backend esté configurado correctamente antes de iniciar el frontend. Sigue estos pasos:
+
+1. Verifica que las migraciones y semillas se hayan ejecutado correctamente en el backend.
+2. Asegúrate de que el backend esté corriendo y accesible en la URL configurada en el archivo `.env` del frontend.
+
+### Ejemplo de Éxito
+1. Backend configurado y migraciones ejecutadas:
+   ```
+   npm run typeorm migration:run
+   npm run seed:run
+   ```
+   Resultado esperado:
+   ```
+   Migration 1746716440192-CreateUsersTable.ts has been executed successfully.
+   Inserted 10 users successfully.
+   ```
+
+2. Frontend conectado correctamente al backend:
+   - Accede a `http://localhost:3000`.
+   - Inicia sesión con un usuario de prueba generado por las semillas.
+   - Visualiza y gestiona los usuarios en la interfaz.
+
+Esto asegura que el sistema esté completamente funcional.
 
 ## Documentación
 
